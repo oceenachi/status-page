@@ -1,0 +1,18 @@
+.footerword {
+  color: #251f68 !important;
+}
+
+.list-unstyled a {
+  color: #51556e !important;
+  padding-bottom: 50px;
+}
+
+.wrapper {
+  font-size: small;
+  background-color: rgba(91,99,254,.05);
+}
+
+.icons{
+  color: #251f68 !important;
+  font-size: 20px;
+}
