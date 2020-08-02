@@ -12,9 +12,6 @@ function StatusPage() {
         <Header />
         <Bar />
         <Website />
-        {/* <Website />
-        <Website />
-        <Website /> */}
         <Incident />
         <Footer />
       </div>
