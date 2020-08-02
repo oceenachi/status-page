@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 function Website() {
   const [website, setWebsite] = useState([]);
 
-  const fetchServices = url => {
+  const fetchServices = (url) => {
     fetch(url)
-      .then(data => data.json())
-      .then(data => setWebsite(data));
+      .then((data) => data.json())
+      .then((data) => setWebsite(data));
   };
 
   useEffect(() => {
@@ -24,12 +24,14 @@ function Website() {
             <table class="table table-bordered m-auto">
               <tbody>
                 <tr className="d-flex justify-content-between">
-                  <td style={{ border: "none" }}>{val.name}</td>
+                  <td style={{ border: "none", fontWeight: 500 }}>
+                    {val.name}
+                  </td>
                   <td
                     style={{
                       color:
                         val.currentStatus === "Operational" ? "green" : "red",
-                      border: "none"
+                      border: "none",
                     }}
                   >
                     {val.currentStatus}

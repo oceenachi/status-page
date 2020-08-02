@@ -1,46 +1,70 @@
 import React, { useEffect, useState } from "react";
-import { format, getDay } from "date-fns";
+import { format } from "date-fns";
 import { NavLink } from "react-router-dom";
 
 function Incident() {
   const [incident, setincident] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4567/incident/incidents")
-      .then(data => data.json())
-      .then(data => setincident(data));
+    fetch("http://localhost:9170/api/v1/incident/past")
+      .then((data) => data.json())
+      .then((data) => setincident(data));
   }, []);
 
   return (
     <>
-      {console.log({"incident": incident})}
-
       <h3 className="py-5">Past Incidents</h3>
       <div>
+        {console.log({ "incident values ": Object.values(incident) })}
 
-        {incident.map((val, i) => {
+        {Object.values(incident).map((val, i) => {
           return (
             <>
-              {" "}
-              
-             <td style={{ color: val.currentStatus === "Operational"? "green": "red", border: "none" }}></td>
-              {/* {console.log(getDay(Date.parse(val.updates[0].datePosted)))} */}
-              {
-                <h5>
-                  {format(Date.parse(val.updates[0].datePosted), "dd/MM/yyyy")}
-                </h5>
-              }
-              <h6>{val.updates[0].title}</h6>
-              <span className="pt-5 text-secondary">{val.updates[0].message}</span>
-              <hr />
+              <h4>{format(Date.parse(val[0].time), "dd/MM/yyyy")}</h4>
+              <>
+                {val.map((value, i) => {
+                  return (
+                    <>
+                      val.length === 0 ? ( "No incidents reported today" ) : (
+                      <div>
+                        <h6 className="p3-5 text-warning">
+                          {" "}
+                          {"Incident on " + value.time}
+                        </h6>
+                        <span
+                          className="p2-6 text-black"
+                          style={{
+                            color:
+                              value.incidentStatus === "Investigating"
+                                ? "#e49a20"
+                                : value.incidentStatus === "Resolved"
+                                ? "#76cb19"
+                                : "#1d1e1c",
+                          }}
+                        >
+                          {" "}
+                          {value.incidentStatus}
+                        </span>
+                        <span className="p3-5 text-secondary">
+                          {" "}
+                          {" - " + value.message}
+                        </span>
+                      </div>
+                    </>
+                  );
+                })}
+                <hr />
+              </>
             </>
           );
         })}
       </div>
-      <div>&larr;<NavLink className="pb-4" to="">
-        incident History
-      </NavLink></div>
-      
+      <div>
+        &larr;
+        <NavLink className="pb-4" to="">
+          incident History
+        </NavLink>
+      </div>
     </>
   );
 }
