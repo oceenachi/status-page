@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { format } from "date-fns";
 import { NavLink } from "react-router-dom";
 
 function Incident() {
@@ -11,58 +10,74 @@ function Incident() {
       .then((data) => setincident(data));
   }, []);
 
+
+  let mapper = {};
+  incident.map((oneIncident) => {
+    let group = oneIncident.incident_group;
+    if (mapper[group]) {
+      //push
+      mapper[group].data.push(oneIncident);
+    } else {
+      let newStructure = {
+        date: oneIncident.incident_time,
+        data: [oneIncident],
+      };
+
+      mapper[group] = newStructure;
+      console.log(Object.values(mapper));
+    }
+  });
+
   return (
     <>
       <h3 className="py-5">Past Incidents</h3>
       <div>
-        {console.log({ "incident values ": Object.values(incident) })}
-
-        {Object.values(incident).map((val, i) => {
-          return (
-            <>
-              <h4>{format(Date.parse(val[0].time), "dd/MM/yyyy")}</h4>
+        {Object.values(mapper).length === 0 ? (
+          <div>No incidents reported today</div>
+        ) : (
+          Object.values(mapper).map((value, i) => {
+            return (
               <>
-                {val.map((value, i) => {
-                  return (
-                    <>
-                      val.length === 0 ? ( "No incidents reported today" ) : (
+                <h4>{new Date(value.date).toDateString()}</h4>
+
+                <>
+                  {value.data.map((elem, i) => {
+                    return (
                       <div>
-                        <h6 className="p3-5 text-warning">
-                          {" "}
-                          {"Incident on " + value.time}
-                        </h6>
                         <span
                           className="p2-6 text-black"
                           style={{
                             color:
-                              value.incidentStatus === "Investigating"
+                              elem.incident_status === "Investigating"
                                 ? "#e49a20"
-                                : value.incidentStatus === "Resolved"
+                                : elem.incident_status === "Resolved"
                                 ? "#76cb19"
                                 : "#1d1e1c",
                           }}
                         >
                           {" "}
-                          {value.incidentStatus}
+                          {elem.incident_status}
                         </span>
                         <span className="p3-5 text-secondary">
                           {" "}
-                          {" - " + value.message}
+                          {" - " +
+                            elem.message.charAt(0).toUpperCase() +
+                            elem.message.slice(1)}
                         </span>
                       </div>
-                    </>
-                  );
-                })}
-                <hr />
+                    );
+                  })}
+                  <hr />
+                </>
               </>
-            </>
-          );
-        })}
+            );
+          })
+        )}
       </div>
       <div>
-        &larr;
-        <NavLink className="pb-4" to="">
-          incident History
+        
+        <NavLink className="pb-4" to="/history">
+        &larr; incident History
         </NavLink>
       </div>
     </>

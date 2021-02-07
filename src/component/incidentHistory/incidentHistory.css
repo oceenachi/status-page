@@ -1,0 +1,19 @@
+p {
+    margin-bottom: 0;
+}
+ h5{
+    color: rgb(228, 154, 32);
+    margin-bottom: .2rem;
+ }
+ hr{ margin-bottom: 0;}
+/*  
+ .incident-list::before {
+    position: absolute;
+    top: 0;
+    left: 19px;
+    display: block;
+    content: "";
+    width: 3px;
+    height: 100%;
+    background-color: #e6ebf1;
+} */
