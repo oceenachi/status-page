@@ -9,13 +9,14 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import StatusPage from "./views/StatusPage";
 import Form from "./views/Form";
+import HistoryPage from "./views/HistoryPage";
 
 ReactDOM.render(
   <Router>
     <Switch>
       <App>
         <Route exact path="/" component={StatusPage} />
-        <Route exact path="/history" component={History} />
+        <Route exact path="/history" component={HistoryPage} />
         <Route exact path="/form" component={Form} />
       </App>
     </Switch>
